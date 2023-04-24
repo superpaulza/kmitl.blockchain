@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <!--script src="web3.js"></script>-->
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script>
+            var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+            async function getBlockInfo(blockNumber) {
+                try {
+                    var blockInfo = await web3.eth.getBlock(blockNumber)
+                    var str = '';
+                    for(var key in blockInfo) {
+                        str += '<tr><td>' + key + '</td><td>' + JSON.stringify(blockInfo[key]) + '</td></tr>'; 
+                    }
+                    document.getElementById('blockinfo').innerHTML = '<table>' + str + '</table>';
+                }
+                catch (err) {
+                    document.getElementById('blockinfo').innerHTML = err;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Block Information</h1>
+        <hr>
+        <label>Enter Block Number: </label>
+        <input type="text" id="blocknumber"/>
+        <br>
+        <button type="button" onclick="getBlockInfo(document.getElementById('blocknumber').value)">Get Block Information</button>
+        <hr>
+        <div id="blockinfo"></div>
+    </body>
+</html>

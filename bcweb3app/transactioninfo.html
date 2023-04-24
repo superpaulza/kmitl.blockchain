@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <!--script src="web3.js"></script>-->
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script>
+           var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+           async function getTransactionInfo(transactionHash) {
+                try {
+                    transactionInfo = await web3.eth.getTransaction(transactionHash)
+                    var str = '';
+                    for(var key in transactionInfo) {
+                        str += '<tr><td>' + key + '</td><td>' + JSON.stringify(transactionInfo[key]) + '</td></tr>'; 
+                    }
+                    document.getElementById('transactioninfo').innerHTML = '<table>' + str + '</table>';
+                }
+                catch(eror) {
+                        document.getElementById('transactioninfo').innerHTML = err;       
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Transaction Information</h1>
+        <hr>
+        <label>Enter transaction hash: </label>
+        <input type="text" size = "70" id="transactionhash"/>
+        <br>
+        <button type="button" onclick="getTransactionInfo(document.getElementById('transactionhash').value)">Get Transaction</button>
+        <hr>
+        <div id="transactioninfo"></div>
+    </body>
+</html>
